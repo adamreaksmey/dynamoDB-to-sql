@@ -1,7 +1,6 @@
-import { load_data } from "./functions/dataLoader";
-import { insert_data } from "./functions/sqlGenerator";
-
-const fs = require("fs");
+import { load_data } from "./functions/dataLoader.mjs";
+import { insert_data } from "./functions/sqlGenerator.mjs";
+import fs from "fs";
 
 const main = () => {
   const data = load_data("./sources/data.json");
