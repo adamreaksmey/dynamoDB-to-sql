@@ -2,24 +2,38 @@ const insert_data = (data) => {
   let queries = [];
   for (let item of data) {
     // Prepare column names and values
-
     let columns = Object.keys(item).filter((key) => key !== "recordType");
     let values = columns.map((column) => {
       let value = item[column];
       // Check if value is a string, if it is, add single quotes around it
       if (typeof value === "string") {
         value = `'${value}'`;
+      } else if (value === null || value === undefined) {
+        value = "NULL";
       }
       return value;
     });
 
     // Build the query
-    let query = `INSERT INTO ${item.recordType} (${columns.join(
-      ", "
-    )}) VALUES (${values.join(", ")});`;
+    let query = `INSERT INTO ${checkIfRecordTypeExists(
+      item.recordType,
+      item
+    )} (${columns.join(", ")}) VALUES (${values.join(", ")});`;
     queries.push(query);
   }
   return queries;
 };
 
-export { insert_data }
+const checkIfRecordTypeExists = (type, item) => {
+  if (type) {
+    return type;
+  } else {
+    if ("finalThank" in item) {
+      return "subject";
+    } else {
+      return "question";
+    }
+  }
+};
+
+export { insert_data };
