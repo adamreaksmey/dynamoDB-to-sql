@@ -11,4 +11,5 @@ const main = () => {
   console.log("SQL file generated successfully.");
 };
 
+console.log("hello world");
 main();
