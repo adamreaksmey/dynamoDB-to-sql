@@ -1,4 +1,8 @@
-const mapperFunction = (data) => {
+let subjects = [];
+let questions = [];
+let answers = [];
+
+const mapperFunction = (data, fs, subjects = [], questions = [], answers = []) => {
   const removedItemName = data.map((item) => item.Item);
   fs.writeFileSync("./log/log.js", JSON.stringify(removedItemName));
   const removedValuePrefix = removedItemName.map((item) => {
@@ -37,15 +41,16 @@ const mapperFunction = (data) => {
         subjectId: subjectId?.S,
         categoryId: categoryId?.S,
         organizationId: organizationId?.S,
-        sort: sort?.N ?? sort?.NULL,
         end: end?.S,
         description: description?.S,
         introduction: introduction?.S,
         nameNative: nameNative?.NULL ?? nameNative?.S,
         recordType: recordType?.S,
         start: start?.S,
-        tableName: "subject",
+        tableName: "subjects",
       };
+
+      subjects.push(mappedData);
     } else if (
       "isRequired" in item ||
       ("recordType" in item && item.recordType.S === "question")
@@ -72,7 +77,7 @@ const mapperFunction = (data) => {
         status: status?.S,
         organizationId: organizationId?.S,
         createdAt: createdAt?.S,
-        tableName: "question",
+        tableName: "questions",
         type: type?.S,
         questionAnswers: questionAnswers?.L.map((data) => {
           const mapped = {
@@ -81,6 +86,7 @@ const mapperFunction = (data) => {
           return mapped;
         }),
       };
+      questions.push(mappedData);
     } else if ("userAnswerId" in item) {
       const { userAnswerId, questionId, subjectId, userAnswers, createdAt } =
         item;
@@ -99,13 +105,18 @@ const mapperFunction = (data) => {
           }),
         },
         createdAt: createdAt?.S,
-        tableName: "answer",
+        tableName: "answers",
       };
+      answers.push(mappedData);
     } else {
       return undefined;
     }
     return mappedData;
   });
+  fs.writeFileSync("./log/subjects/subject.mjs", JSON.stringify(subjects));
+  fs.writeFileSync("./log/questions/question.mjs", JSON.stringify(questions));
+  fs.writeFileSync("./log/answers/answer.mjs", JSON.stringify(answers));
+
   fs.writeFileSync("./log/subject.mjs", JSON.stringify(removedValuePrefix));
 };
 
