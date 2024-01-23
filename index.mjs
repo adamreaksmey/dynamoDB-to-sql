@@ -4,10 +4,11 @@ import fs from "fs";
 
 const main = () => {
   const data = load_data("./sources/data.json");
-  const queries = insert_data(data);
-  const sqlContent = queries.join("\n");
+  console.log(data)
+  // const queries = insert_data(data);
+  // const sqlContent = queries.join("\n");
 
-  fs.writeFileSync("./generated_sql/migration_queries.sql", sqlContent);
+  // fs.writeFileSync("./generated_sql/migration_queries.sql", sqlContent);
   console.log("SQL file generated successfully.");
 };
 
