@@ -2,3 +2,5 @@ generated_sql
 
 sensitive-data/*
 !sensitive-data/index.txt
+
+sources/*
