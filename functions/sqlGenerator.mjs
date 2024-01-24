@@ -25,18 +25,4 @@ const insert_data = (data) => {
   return queries;
 };
 
-const checkIfRecordTypeExists = (type, item) => {
-  let questionsTable = [];
-  if (type) {
-    return type;
-  } else {
-    if ("finalThank" in item) {
-      // questionsTable.push({ ...item, recordType: "subject" });
-      return "subject";
-    } else {
-      return "question";
-    }
-  }
-};
-
 export { insert_data };
