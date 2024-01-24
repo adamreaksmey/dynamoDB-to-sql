@@ -4,3 +4,4 @@ sensitive-data/*
 !sensitive-data/index.txt
 
 sources
+log
