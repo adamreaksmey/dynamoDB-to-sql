@@ -18,6 +18,7 @@ const main = () => {
   const contents = [];
 
   console.log("Generating script....")
+  
   for (let i = 0; i < _data.length; i++) {
     const queries = insert_data(_data[i]);
     contents.push(queries.join("\n"));

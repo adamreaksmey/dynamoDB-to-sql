@@ -7,8 +7,11 @@ in your VScode, cmd + P or ctrl + P as it will open the search bar,
 
 1. Click on regex search method, paste this in your search bar: "\}$"
     - This regex will detect the last curly bracket of each of your json data line
+    
 2. Replace it with " }, "
     - This will replace every last curly bracket with a comma tracing, this is to
     properly format your json data.
+
 3. Select all of your json data, place it inside a sqaure bracket "[]"
+
 4. Your json is now a valid json, you can format this with prettier and your data is ready to be converted.
