@@ -7,19 +7,22 @@ const insert_data = (data) => {
     );
     let values = columns.map((column) => {
       let value = item[column];
+
       if (typeof value === "string") {
         return `'${value.replace(/'/g, "''")}'`;
-      } else if (value === null || value === undefined) {
+      } else if (value === null || value === undefined || value === "") {
         return "NULL";
       } else {
-        return JSON.stringify(value);
+        return `'${JSON.stringify(value)}'`;
       }
     });
 
     // Build the query
     let query = `INSERT INTO ${item.tableName} (${columns
       .map((column) => `"${column}"`)
-      .join(", ")}) VALUES (${values.join(", ")});`;
+      .join(", ")}) VALUES (${values
+      .map((value) => (value === "''" ? "NULL" : value))
+      .join(", ")});`;
     queries.push(query);
   }
   return queries;

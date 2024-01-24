@@ -1,4 +1,10 @@
-const mapperFunction = (data, fs, subjects = [], questions = [], answers = []) => {
+const mapperFunction = (
+  data,
+  fs,
+  subjects = [],
+  questions = [],
+  answers = []
+) => {
   const removedItemName = data.map((item) => item.Item);
   fs.writeFileSync("./log/dynamo-logs.js", JSON.stringify(removedItemName));
   const removedValuePrefix = removedItemName.map((item) => {
@@ -109,11 +115,38 @@ const mapperFunction = (data, fs, subjects = [], questions = [], answers = []) =
     }
     return mappedData;
   });
-  fs.writeFileSync("./log/subjects/subject.mjs", ("export default" + JSON.stringify(subjects)));
-  fs.writeFileSync("./log/questions/question.mjs", ("export default" + JSON.stringify(questions)));
-  fs.writeFileSync("./log/answers/answer.mjs", ("export default" + JSON.stringify(answers)));
 
-  fs.writeFileSync("./log/data.mjs", ("export default" + JSON.stringify(removedValuePrefix)));
+  const mutataedQuestions = questions.map((item) => {
+    if (!subjects.some((subject) => subject.subjectId === item.subjectId)) {
+      return { ...item, subjectId: "" };
+    }
+    return item;
+  });
+
+  const mutatedAnswers = answers.map((item) => {
+    if (!questions.some((question) => question.questionId === item.questionId)) {
+      return { ...item, questionId: "" };
+    }
+    return item;
+  });
+
+  fs.writeFileSync(
+    "./log/subjects/subject.mjs",
+    "export default" + JSON.stringify(subjects)
+  );
+  fs.writeFileSync(
+    "./log/questions/question.mjs",
+    "export default" + JSON.stringify(mutataedQuestions)
+  );
+  fs.writeFileSync(
+    "./log/answers/answer.mjs",
+    "export default" + JSON.stringify(mutatedAnswers)
+  );
+
+  fs.writeFileSync(
+    "./log/data.mjs",
+    "export default" + JSON.stringify(removedValuePrefix)
+  );
 };
 
 export default mapperFunction;
