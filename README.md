@@ -1,1 +1,1 @@
-a JSON to SQL tool.
+Tool to convert dynamo json to sql.
