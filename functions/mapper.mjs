@@ -1,10 +1,6 @@
-let subjects = [];
-let questions = [];
-let answers = [];
-
 const mapperFunction = (data, fs, subjects = [], questions = [], answers = []) => {
   const removedItemName = data.map((item) => item.Item);
-  fs.writeFileSync("./log/log.js", JSON.stringify(removedItemName));
+  fs.writeFileSync("./log/dynamo-logs.js", JSON.stringify(removedItemName));
   const removedValuePrefix = removedItemName.map((item) => {
     let mappedData;
 
@@ -113,11 +109,11 @@ const mapperFunction = (data, fs, subjects = [], questions = [], answers = []) =
     }
     return mappedData;
   });
-  fs.writeFileSync("./log/subjects/subject.mjs", JSON.stringify(subjects));
-  fs.writeFileSync("./log/questions/question.mjs", JSON.stringify(questions));
-  fs.writeFileSync("./log/answers/answer.mjs", JSON.stringify(answers));
+  fs.writeFileSync("./log/subjects/subject.mjs", ("export default" + JSON.stringify(subjects)));
+  fs.writeFileSync("./log/questions/question.mjs", ("export default" + JSON.stringify(questions)));
+  fs.writeFileSync("./log/answers/answer.mjs", ("export default" + JSON.stringify(answers)));
 
-  fs.writeFileSync("./log/subject.mjs", JSON.stringify(removedValuePrefix));
+  fs.writeFileSync("./log/data.mjs", ("export default" + JSON.stringify(removedValuePrefix)));
 };
 
 export default mapperFunction;
