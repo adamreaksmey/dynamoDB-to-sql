@@ -90,14 +90,20 @@ const mapperFunction = (
       };
       questions.push(mappedData);
     } else if ("userAnswerId" in item) {
-      const { userAnswerId, questionId, subjectId, userAnswers, createdAt } =
-        item;
+      const {
+        userAnswerId,
+        questionId,
+        subjectId,
+        userAnswers,
+        createdAt,
+        userId,
+      } = item;
 
       mappedData = {
         answerId: userAnswerId?.S,
         questionId: questionId?.S,
         subjectId: subjectId?.S,
-        questionAnswers: {
+        userAnswers: {
           type: userAnswers?.M?.type?.S,
           answer: userAnswers?.L?.map((data) => {
             const mappedData = {
@@ -107,6 +113,7 @@ const mapperFunction = (
           }),
         },
         createdAt: createdAt?.S,
+        userId: userId?.S,
         tableName: "answers",
       };
       answers.push(mappedData);
@@ -124,7 +131,9 @@ const mapperFunction = (
   });
 
   const mutatedAnswers = answers.map((item) => {
-    if (!questions.some((question) => question.questionId === item.questionId)) {
+    if (
+      !questions.some((question) => question.questionId === item.questionId)
+    ) {
       return { ...item, questionId: "" };
     }
     return item;
