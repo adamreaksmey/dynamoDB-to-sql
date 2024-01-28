@@ -9,6 +9,8 @@ import answer from "./log/answers/answer.mjs";
 
 const main = () => {
   const data = load_data("./sources/data.json");
+  fs.writeFileSync(`./log/data.mjs`, data);
+  return;
 
   // very important function, it maps data to generate correct queries.
   mapperFunction(data, fs);
@@ -17,8 +19,8 @@ const main = () => {
   const _data = [subject, question, answer];
   const contents = [];
 
-  console.log("Generating script....")
-  
+  console.log("Generating script....");
+
   for (let i = 0; i < _data.length; i++) {
     const queries = insert_data(_data[i]);
     contents.push(queries.join("\n"));
